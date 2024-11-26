@@ -1,1 +1,1 @@
-Here's my practice problems and Assignments of DSA
+This repo contains my DSA implementation, practice problems and some Assignments.
