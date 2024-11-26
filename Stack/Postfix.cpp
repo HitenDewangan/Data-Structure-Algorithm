@@ -25,10 +25,10 @@ int evalRPN(vector<string>& tokens) {
             else if (token[0] == '*')
                 st.push(a * b);
             else if (token[0] == '/')
-                st.push(a / b);
+                st.push(max(a,b) / min(a,b));
         } else {
             int num;
-            stringstream ss(token);
+            stringstream ss(token);  // stringstream is used to convert string to integer
             ss >> num;
             st.push(num);
         }
@@ -38,7 +38,15 @@ int evalRPN(vector<string>& tokens) {
 
 int main() {
     vector<string> tokens = {"2", "1", "+", "10", "*"};
-    cout << evalRPN(tokens) << endl; // Output: 9
+    cout << evalRPN(tokens) << endl; // Output: 30
+
+    // 10 5 / 2 * 3 + 1 - 4 * 2 / 2 + = 6
+
+    vector<string> tokens2 = {"10", "6", "9", "3", "+", "11", "*", "/", "*", "17", "+", "5", "+"};
+    cout << evalRPN(tokens2) << endl; // Output: 22
+
+    vector<string> tokens3 = {"10", "6", "9", "3", "+", "/", "*"};
+    cout << evalRPN(tokens3) << endl; // Output: 20
 
     return 0;
 }
