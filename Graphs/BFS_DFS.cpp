@@ -88,6 +88,11 @@ Graph Connections :
 4: 1
 5: 2
 
+      0
+     / \
+    1   2
+   / \   \
+  3   4   5
 
 BFS: Explores the graph level by level, finding the shortest path in an unweighted graph.
 DFS: Explores as far as possible along each branch before backtracking.
