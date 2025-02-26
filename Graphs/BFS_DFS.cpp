@@ -9,59 +9,38 @@
 
 using namespace std;
 
-void bfs(const vector<vector<int>>& adj, int start) {
-    queue<int> q;
+void bfs(const vector<vector<int>>& graph, int start) {
     unordered_set<int> visited;
-
+    queue<int> q;
     q.push(start);
-    visited.insert(start);
-
-    cout << "BFS Traversal: ";
 
     while (!q.empty()) {
-        int current = q.front();
+        int node = q.front();
         q.pop();
-        cout << current << " ";
 
-        for (int neighbor : adj[current]) {
-            if (visited.find(neighbor) == visited.end()) {
+        if (visited.find(node) == visited.end()) { // not visited
+            cout << node << " ";
+            visited.insert(node);
+            for (int neighbor : graph[node]) {
                 q.push(neighbor);
-                visited.insert(neighbor);
             }
         }
     }
     cout << endl;
 }
 
-void dfs(const vector<vector<int>>& adj, int start) {
-    stack<int> s;
-    unordered_set<int> visited;
-
-    s.push(start);
-
-    cout << "DFS Traversal: ";
-
-    while (!s.empty()) {
-        int current = s.top();
-        s.pop();
-
-        if (visited.find(current) == visited.end()) {
-            cout << current << " ";
-            visited.insert(current);
-
-            for (int i = adj[current].size() - 1; i >= 0; --i) { // Reverse to get left most first.
-                int neighbor = adj[current][i];
-                if (visited.find(neighbor) == visited.end()) {
-                    s.push(neighbor);
-                }
-            }
+void dfs(const vector<vector<int>>& graph, int node, unordered_set<int>& visited) {
+    if (visited.find(node) == visited.end()) {
+        cout << node << " ";
+        visited.insert(node);
+        for (int neighbor : graph[node]) {
+            dfs(graph, neighbor, visited);
         }
     }
-    cout << endl;
 }
 
 int main() {
-    vector<vector<int>> adj = {
+    vector<vector<int>> graph = {
         {1, 2},
         {0, 3, 4},
         {0, 5},
@@ -72,8 +51,13 @@ int main() {
 
     int startNode = 0;
 
-    bfs(adj, startNode);
-    dfs(adj, startNode);
+    cout << "BFS: ";
+    bfs(graph, startNode);
+
+    cout << "DFS: ";
+    unordered_set<int> visited;
+    dfs(graph, startNode, visited);
+    cout << endl;
 
     return 0;
 }
