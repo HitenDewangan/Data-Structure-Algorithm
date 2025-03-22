@@ -44,7 +44,7 @@ int minKnightSteps(int startX, int startY, int targetX, int targetY, int boardSi
             int nextY = y + dy[i];
 
             // Check if the next position is within the board and hasn't been visited yet
-            if (nextX >= 0 && nextX < boardSize && nextY >= 0 && nextY < boardSize && dist[nextX][nextY] == INT_MAX) {
+            if (isValid(nextX, nextY, boardSize) && dist[nextX][nextY] == INT_MAX) {
                 // Update the distance and enqueue the next position
                 dist[nextX][nextY] = dist[x][y] + 1;
                 q.push({nextX, nextY});
