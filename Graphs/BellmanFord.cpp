@@ -5,39 +5,35 @@
 using namespace std;
 
 struct Edge {
-    int source;
-    int dest;
-    int weight;
+    int u, v, weight;
 };
 
-bool bellmanFord(int vertices, const vector<Edge>& edges, int source, vector<int>& distances) {
-    // Initialize distances
-    distances.resize(vertices, INT_MAX);
-    distances[source] = 0;
+bool bellmanFord(int V, const vector<Edge>& edges, int src, vector<int>& dist) {
+    dist.assign(V, INT_MAX);
+    dist[src] = 0;
 
     // Relax all edges V-1 times
-    for (int i = 0; i < vertices - 1; ++i) {
+    for (int i = 0; i < V - 1; ++i) {
         for (const auto& edge : edges) {
-            if (distances[edge.source] != INT_MAX && 
-                distances[edge.source] + edge.weight < distances[edge.dest]) {
-                distances[edge.dest] = distances[edge.source] + edge.weight;
+            if (dist[edge.u] != INT_MAX && dist[edge.u] + edge.weight < dist[edge.v]) {
+                dist[edge.v] = dist[edge.u] + edge.weight;
             }
         }
     }
 
-    // Check for negative weight cycles
+    // Check for negative cycles
     for (const auto& edge : edges) {
-        if (distances[edge.source] != INT_MAX && 
-            distances[edge.source] + edge.weight < distances[edge.dest]) {
-            return false;
+        if (dist[edge.u] != INT_MAX && dist[edge.u] + edge.weight < dist[edge.v]) {
+            return false; // Negative cycle detected
         }
     }
-    return true;
+
+    return true; // No negative cycle
 }
 
 int main() {
-    const int V = 5;  // Number of vertices
-    const int source = 0;
+    int V = 5; // Number of vertices
+    int src = 0; // Source vertex
 
     vector<Edge> edges = {
         {0, 1, 6}, {0, 2, 7},
@@ -47,17 +43,32 @@ int main() {
         {4, 0, 2}, {4, 3, 7}
     };
 
-    vector<int> distances;
-    bool success = bellmanFord(V, edges, source, distances);
+    vector<int> dist;
+    bool hasNoNegativeCycle = bellmanFord(V, edges, src, dist);
 
-    if (success) {
-        cout << "Vertex\tDistance from Source\n";
-        for (int i = 0; i < V; ++i) {
-            cout << i << "\t" << distances[i] << "\n";
-        }
+    if (hasNoNegativeCycle) {
+        cout << "Vertex\tDistance from Source" << endl;
+        for (int i = 0; i < V; ++i)
+            cout << i << "\t" << dist[i] << endl;
     } else {
-        cout << "Graph contains negative weight cycle reachable from source!\n";
+        cout << "Graph contains a negative-weight cycle." << endl;
     }
+
+    //  ============ negative cycle example ============
+    // vector<Edge> edges = {
+    //     {0, 1, 1}, {1, 2, -1}, {2, 0, -1}
+    // };
+
+    // vector<int> dist;
+    // bool hasNoNegativeCycle = bellmanFord(3, edges, 0, dist);
+
+    // if (hasNoNegativeCycle) {
+    //     cout << "Vertex\tDistance from Source" << endl;
+    //     for (int i = 0; i < 3; ++i)
+    //         cout << i << "\t" << dist[i] << endl;
+    // } else {
+    //     cout << "Graph contains a negative-weight cycle." << endl;
+    // }
 
     return 0;
 }
