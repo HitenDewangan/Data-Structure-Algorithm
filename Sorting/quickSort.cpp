@@ -1,61 +1,49 @@
 #include <iostream>
 #include <vector>
-#include <algorithm> // For swap
+#include <algorithm> // For std::swap
 
-using namespace std;
+// Lomuto partition: Last element as pivot
+int partition(std::vector<int>& arr, int low, int high) {
+    int pivot = arr[high]; // Pivot = last element
+    int i = low - 1; // Index for elements <= pivot
 
-// Partition function using Hoare's scheme
-int partition(vector<int>& arr, int low, int high) {
-    // Choose middle element as pivot to avoid worst-case behavior
-    int pivot = arr[(low + high) / 2];
-    int i = low - 1;
-    int j = high + 1;
-
-    while (true) {
-        // Find leftmost element >= pivot
-        do {
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
             i++;
-        } while (arr[i] < pivot);
-
-        // Find rightmost element <= pivot
-        do {
-            j--;
-        } while (arr[j] > pivot);
-
-        // If pointers meet, partition is complete
-        if (i >= j) return j;
-
-        // Swap mismatched elements
-        swap(arr[i], arr[j]);
+            std::swap(arr[i], arr[j]);
+        }
     }
+    // Place pivot in correct position
+    std::swap(arr[i + 1], arr[high]);
+    return i + 1; // Return pivot index
 }
 
-// Recursive QuickSort helper
-void quickSortHelper(vector<int>& arr, int low, int high) {
+// Recursive QuickSort
+void quickSort(std::vector<int>& arr, int low, int high) {
     if (low < high) {
-        // Partition the array and get the split point
-        int split = partition(arr, low, high);
-
-        // Recursively sort left and right partitions
-        quickSortHelper(arr, low, split);
-        quickSortHelper(arr, split + 1, high);
+        int pivot_idx = partition(arr, low, high);
+        quickSort(arr, low, pivot_idx - 1); // Left of pivot
+        quickSort(arr, pivot_idx + 1, high); // Right of pivot
     }
 }
 
-// Main QuickSort function (user-friendly interface)
-void quickSort(vector<int>& arr) {
-    if (arr.empty()) return;
-    quickSortHelper(arr, 0, arr.size() - 1);
+// Wrapper for easier use
+void quickSort(std::vector<int>& arr) {
+    if (!arr.empty()) {
+        quickSort(arr, 0, arr.size() - 1);
+    }
 }
 
-
+// Test
 int main() {
-    vector<int> arr = {9, -3, 5, 2, 6, 8, -6, 1, 3};
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    std::cout << "Original: ";
+    for (int x : arr) std::cout << x << " ";
+    
     quickSort(arr);
     
-    for (int num : arr) {
-        cout << num << " ";
-    }
-    // Output: -6 -3 1 2 3 5 6 8 9
+    std::cout << "\nSorted:   ";
+    for (int x : arr) std::cout << x << " ";
+    
     return 0;
 }
