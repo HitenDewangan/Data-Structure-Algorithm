@@ -21,7 +21,7 @@ public:
     }
 
     // Destructor to clear the trie
-    ~Trie() {
+    ~Trie() { 
         clear(root);
     }
     
