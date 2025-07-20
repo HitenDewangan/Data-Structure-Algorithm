@@ -17,7 +17,7 @@ private:
         }
     }
 
-    void heapifyDown(int index) {
+    void heapifyDown(int index) {  // recursive T.C O(log n) for 
         int left = 2 * index + 1;
         int right = 2 * index + 2;
         int smallest = index;
