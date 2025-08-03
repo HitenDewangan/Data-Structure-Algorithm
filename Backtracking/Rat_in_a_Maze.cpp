@@ -24,6 +24,12 @@ void helper(vector<vector<int>>& maze, int r, int c, string path, vector<string>
     
 }
 
+// T.C. : O(4^(n*n)) in the worst case, as we can move in 4 directions at each cell
+// S.C. : O(n*n) for the visited array and O(n*n) for
+// optimization space : instead of using a visited array, we can mark the cell as 0 in the maze
+// to indicate it has been visited, but this will modify the maze. So undo the changes after the recursion.
+
+
 vector<string> findPaths(vector<vector<int>>& maze) {
     int n = maze.size();
     vector<string> ans;
