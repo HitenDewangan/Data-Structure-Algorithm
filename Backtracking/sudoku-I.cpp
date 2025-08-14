@@ -93,6 +93,10 @@ bool solveSudoku(int grid[N][N]) {
     return false;
 }
 
+// T.C. : O(9^(N*N)) in the worst case, as we try all numbers for each empty cell
+// S.C. : O(N*N) for the recursion stack and the grid storage
+// This code solves a Sudoku puzzle using backtracking.
+
 int main() {
     // Example Sudoku grid (0 represents empty cells)
     int grid[N][N] = {
