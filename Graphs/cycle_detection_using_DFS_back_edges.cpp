@@ -1,7 +1,9 @@
 #include <iostream>
 #include <vector>
 
-using namespace std; // Using namespace std
+using namespace std; 
+
+// Function to perform DFS and detect cycle in a directed graph using recursion stack
 
 bool isCyclicUtil(int v, vector<bool>& visited, vector<bool>& recStack, const vector<vector<int>>& graph) {
     if (!visited[v]) {

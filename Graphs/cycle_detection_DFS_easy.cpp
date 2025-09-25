@@ -2,6 +2,8 @@
 #include <vector>
 using namespace std;
 
+// Function to perform DFS and detect cycle in an undirected graph
+
 bool dfs(int node, int parent, vector<bool>& visited, const vector<vector<int>>& graph) {
     visited[node] = true;
     for (int neighbor : graph[node]) {
