@@ -48,7 +48,7 @@ int orangesRotting(vector<vector<int>>& grid) {
         for (int i = 0; i < size; ++i) {
             pair<int, int> current = rotten.front();
             rotten.pop();
-
+            
             for (const auto& dir : directions) {
                 int newRow = current.first + dir.first;
                 int newCol = current.second + dir.second;
